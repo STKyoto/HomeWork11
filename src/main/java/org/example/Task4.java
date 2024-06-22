@@ -14,7 +14,7 @@ public class Task4 {
     }
 
     private static Stream<Long> generateRandomStream(long a, long c, long m, long l) {
-        return Stream.iterate(l, x -> ((a * l) + c) % m);
+        return Stream.iterate(l, x -> ((a * x) + c) % m);
     }
 
 

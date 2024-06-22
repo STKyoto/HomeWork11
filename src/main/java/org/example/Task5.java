@@ -1,10 +1,12 @@
 package org.example;
 
+
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class Task5 {
     public static void main(String[] args) {
@@ -15,29 +17,12 @@ public class Task5 {
     }
 
     public static <T> Stream<T> zip(Stream<T> first, Stream<T> second) {
-        Iterator<T> firstIterator = first.iterator();
-        Iterator<T> secondIterator = second.iterator();
-
-        Spliterator<T> spliterator = Spliterators.spliteratorUnknownSize(new Iterator<T>() {
-            private boolean useFirst = true;
-
-            @Override
-            public boolean hasNext() {
-                return firstIterator.hasNext() && secondIterator.hasNext();
-            }
-
-            @Override
-            public T next() {
-                if (useFirst) {
-                    useFirst = false;
-                    return firstIterator.next();
-                } else {
-                    useFirst = true;
-                    return secondIterator.next();
-                }
-            }
-        }, Spliterator.ORDERED);
-
-        return StreamSupport.stream(spliterator, false);
+        Iterator<T> iterator = first.iterator();
+        return second
+                .filter(e -> iterator.hasNext())
+                .map(e -> {
+                    return List.of(iterator.next(), e);
+                    })
+                .flatMap(List::stream);
     }
 }

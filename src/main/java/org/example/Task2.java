@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Task2 {
@@ -16,7 +17,7 @@ public class Task2 {
     private static List<String> ListFilter(List<String> names) {
         return names.stream()
                 .map(String::toUpperCase)
-                .sorted(String::compareTo)
+                .sorted((Comparator.reverseOrder()))
                 .toList();
     }
 }
